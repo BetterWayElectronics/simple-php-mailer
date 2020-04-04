@@ -110,26 +110,25 @@ function getBrowser() {
 
 //If Captcha Valid
 if ($resp->success) {
-   $name = $_POST['name'];
-    $email = $_POST['email'];
-    $from = $_POST['email'];
-    $message = $_POST['message'];
-    $to = 'enquiry@yourwebsite.www'; 
-    $subject = "Your Website Enquiry (" . $_POST['name'] . ")";
-    $number = $_POST['number'];
+	$name = $_POST['name'];
+	$email = $_POST['email'];
+	$from = $_POST['email'];
+	$message = $_POST['message'];
+	$to = 'enquiry@yourwebsite.www'; 
+	$subject = "Your Website Enquiry (" . $_POST['name'] . ")";
+	$number = $_POST['number'];
 	$ip = $_SERVER['REMOTE_ADDR'];
 	$hostname = gethostbyaddr($ip);
 	$refer = $_SESSION['org_referer'];
 	$user_os        = getOS();
 	$user_browser   = getBrowser();
 	
-    $headers = "From: $name <$email>\r\n".
+   	$headers = "From: $name <$email>\r\n".
                "MIME-Version: 1.0" . "\r\n" .
                "Content-type: text/html; charset=UTF-8" . "\r\n"; 
 			
         $body = "Name: $name<br>E-Mail: $email<br>Number: $number<br>IP: $ip ($hostname)<br>OS: $user_os<br>Browser: $user_browser<br>Referer: $refer<br>Message:<br><br> $message";
 
-	
 	mail ($to, $subject, $body, $headers);
 	
   //When the email is sent do this
@@ -137,8 +136,8 @@ if ($resp->success) {
 	alert('Message Sent!');
 	window.location.href='https://yourwebsite.www';
 	</script>";
-	
 	die();
+	
 } else {
 	echo "<script>
 	alert('Verification Failed. Please Try Again!');
