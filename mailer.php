@@ -109,7 +109,6 @@ function getBrowser() {
 }
 
 //If Captcha Valid
-
 if ($resp->success) {
    $name = $_POST['name'];
     $email = $_POST['email'];
