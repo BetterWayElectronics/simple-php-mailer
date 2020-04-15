@@ -112,7 +112,6 @@ function getBrowser() {
 if ($resp->success) {
 	$name = $_POST['name'];
 	$email = $_POST['email'];
-	$from = $_POST['email'];
 	$message = $_POST['message'];
 	$to = 'enquiry@yourwebsite.www'; 
 	$subject = "Your Website Enquiry (" . $_POST['name'] . ")";
