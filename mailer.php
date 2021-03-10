@@ -14,11 +14,13 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, [
 
 $resp = json_decode(curl_exec($ch));
 curl_close($ch);
+$valid = 1;
 
 //Filters
 $email = $_POST['email'];
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-  	echo "<script>
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) { //Works well but is not flawless
+  	$valid = 0;
+	echo "<script>
 	alert('Invalid E-Mail Address');
 	window.location.href='https://yourwebsite.www';
 	</script>";
@@ -26,15 +28,26 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $name = $_POST['name'];
 if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
+	$valid = 0;
 	echo "<script>
 	alert('Name Invalid!');
 	window.location.href='https://yourwebsite.www';
 	</script>";
 }
 
+$number = $_POST['number'];
+if (!preg_match("/[0][4][0-9]{8}$/",$number)) { //Australian numbers only in this case.
+	$valid = 0;
+	echo "<script>
+	alert('Number Invalid!');
+	window.location.href='https://yourwebsite.www';
+	</script>";
+}
+
 $message = $_POST['message'];
-if (preg_match('/(?:(?:https?|http):\/\/)?[\w\/\-?=%.]+\.[\w\/\-?=%.]+/', $message)) {
-  	echo "<script>
+if (preg_match('/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/', $message) || preg_match('/^(.*?(\bhttps\b)[^$]*)$/', $message) || preg_match('/^(.*?(\bhttp\b)[^$]*)$/', $message) || preg_match('/^(.*?(\bwww\b)[^$]*)$/', $message) || preg_match('/^(.*?(\bhref\b)[^$]*)$/', $message)) {
+  	$valid = 0;
+	echo "<script>
 	alert('Unsolicited URLs Not Permitted!');
 	window.location.href='https://yourwebsite.www';
 	</script>";
@@ -109,7 +122,7 @@ function getBrowser() {
 }
 
 //If Captcha Valid
-if ($resp->success) {
+if ($resp->success && $valid == 1) {
 	$name = $_POST['name'];
 	$email = $_POST['email'];
 	$message = $_POST['message'];
